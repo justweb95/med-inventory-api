@@ -1,6 +1,6 @@
 # Medication Inventory REST API
-
 REST API for tracking controlled medication inventory in a healthcare facility. Nurses check out controlled substances, can return remainders, and must record waste with a witness for audit purposes.
+
 
 ## Tech stack
 - Node.js, Express, TypeScript
@@ -10,6 +10,7 @@ REST API for tracking controlled medication inventory in a healthcare facility. 
 - Docker + Docker Compose
 - Vitest + Supertest (Prisma mocked for tests)
 
+
 ## Features
 - Medication inventory tracking with schedules (II–V) and units (mg/ml/mcg)
 - Transactions: CHECKOUT, RETURN, WASTE
@@ -17,59 +18,79 @@ REST API for tracking controlled medication inventory in a healthcare facility. 
 - Input validation via Zod
 - Consistent HTTP error responses
 
+
 ## Requirements
 - Node.js 20+
 - npm
 - Docker + Docker Compose
 
+
 ## Environment variables
 Create a `.env` file in the project root:
+
 
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/med_inventory  
 PORT=3000
 
+## Swagger docs & OpenAPI JSON
+- http://localhost:3000/api-docs
+- http://localhost:3000/openapi.json
+
 ## Run with Docker (recommended)
-Start PostgreSQL:
+Start PostgreSQL:  
 sudo docker compose up -d db
 
-Run migrations:
+
+Run migrations:  
 npx prisma migrate dev --name init
 
-Seed initial data:
+
+Seed initial data:  
 npm run prisma:seed
 
-Start the API (hot reload):
+
+Start the API (hot reload):  
 npm run dev
 
-API base URL:
+
+API base URL:  
 http://localhost:3000/api
 
-Quick check:
+
+Quick check:  
 curl http://localhost:3000/api/medications
+
 
 ## Docker Compose warning about version
 If you see a warning that `version` is obsolete in `docker-compose.yml`, you can remove the top-level `version:` key. Docker Compose v2 ignores it.
 
+
 ## Running tests
-Tests mock Prisma so they run without a real database:
+Tests mock Prisma so they run without a real database:  
 npm test
 
-Watch mode:
+
+Watch mode:  
 npm run test:watch
+
 
 ## API endpoints
 All endpoints are prefixed with /api.
+
 
 ### Medications
 GET /api/medications?schedule=II  
 List all medications (optional filter by schedule).
 
+
 GET /api/medications/:id  
 Get a single medication with its transaction history.
+
 
 ### Transactions
 POST /api/transactions  
 Create a transaction (CHECKOUT / RETURN / WASTE).
+
 
 Body example:
 {
@@ -81,12 +102,15 @@ Body example:
   "notes": "Optional (required for WASTE)"
 }
 
+
 GET /api/transactions?type=CHECKOUT&medicationId=1  
 List transactions with optional filters.
+
 
 ### Audit log
 GET /api/audit-log?entityType=Transaction  
 List audit log entries with optional filter by entityType.
+
 
 ## Transaction rules
 - CHECKOUT reduces medication stock; request fails if stock is insufficient.
@@ -95,13 +119,16 @@ List audit log entries with optional filter by entityType.
 - Every transaction must include a witnessId that is different from nurseId.
 - Every transaction automatically creates an AuditLog entry.
 
+
 ## Seed data
 Seed script creates:
 - 3 users (NURSE, WITNESS, ADMIN)
 - 5 medications with initial stock
 
-Run:
+
+Run:  
 npm run prisma:seed
+
 
 ## Design decisions / tradeoffs
 - Business rules live in a service layer (stock calculations, transaction rules), controllers are kept thin.
