@@ -6,7 +6,7 @@ async function main() {
   const nurse = await prisma.user.create({
     data: {
       email: 'nurse@example.com',
-      name: 'Nurse Nancy',
+      name: 'Nurse Milica',
       role: UserRole.NURSE,
     },
   });
@@ -14,7 +14,7 @@ async function main() {
   const witness = await prisma.user.create({
     data: {
       email: 'witness@example.com',
-      name: 'Witness Will',
+      name: 'Witness Marija',
       role: UserRole.WITNESS,
     },
   });
@@ -22,7 +22,7 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       email: 'admin@example.com',
-      name: 'Admin Alice',
+      name: 'Admin Dragana',
       role: UserRole.ADMIN,
     },
   });
@@ -30,31 +30,31 @@ async function main() {
   await prisma.medication.createMany({
     data: [
       {
-        name: 'Morphine',
+        name: 'Brufen',
         schedule: Schedule.II,
         unit: Unit.mg,
         currentStockQuantity: 1000,
       },
       {
-        name: 'Diazepam',
+        name: 'Andol',
         schedule: Schedule.IV,
         unit: Unit.mg,
         currentStockQuantity: 500,
       },
       {
-        name: 'Midazolam',
+        name: 'Bromazepam',
         schedule: Schedule.IV,
         unit: Unit.mg,
         currentStockQuantity: 300,
       },
       {
-        name: 'Fentanyl',
+        name: 'Xanax ',
         schedule: Schedule.II,
         unit: Unit.mcg,
         currentStockQuantity: 2000,
       },
       {
-        name: 'Lorazepam',
+        name: 'Paracetamol',
         schedule: Schedule.IV,
         unit: Unit.mg,
         currentStockQuantity: 400,
